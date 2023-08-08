@@ -1,6 +1,6 @@
 import FileUploader from "@/components/FileUploader"
 
-const url = "/api/upload";
+const url = "https://fileuploadbackend.vercel.app/upload";
 
 interface ContainerProps {
   children: React.ReactNode
