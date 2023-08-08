@@ -15,7 +15,6 @@ const Container = ({ children }: ContainerProps) => (
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col gap-8 py-20 px-4 md:px-32 bg-zinc-900 text-white">
-      <h2 className="text-xl font-bold text-center">Note: this demo site API discards all files that are uploaded. The API also randomly returns a code 500 for demonstration of error handling.</h2>
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 2xl:grid-cols-3">
         <Container>
           <h1 className="text-2xl font-bold">File Uploader</h1>
