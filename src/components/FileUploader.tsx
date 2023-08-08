@@ -72,33 +72,34 @@ export default function FileUploader(props: FileUploaderProps) {
         }
     };
 
-    const fileUploadHandler = (file: File) => {
-        const formData = new FormData();
-        formData.append("uploads", file);
+const fileUploadHandler = (file) => {
+  const formData = new FormData();
+  formData.append('uploads', file);
 
-        const xhr = new XMLHttpRequest();
-        xhr.open("POST", url, true);
-
-        xhr.upload.addEventListener("progress", event => {
-            if (event.lengthComputable) {
-                const progress = Math.round((event.loaded / event.total) * 100);
-                setFileProgress(prev => ({ ...prev, [file.name]: progress }));
-            }
-        });
-
-        xhr.addEventListener("readystatechange", () => {
-            if (xhr.readyState === 4) {
-                if (xhr.status === 200) {
-                    setFileStatus(prev => ({ ...prev, [file.name]: 'Uploaded' }));
-                    setUploadSuccess(true);
-                } else {
-                    setFileStatus(prev => ({ ...prev, [file.name]: "An error occurred while uploading the file. Server response: " + xhr.statusText }));
-                }
-            }
-        });
-
-        xhr.send(formData);
-    };
+  fetch('https://fileuploadbackend.vercel.app/upload', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      // Handle the response from the server
+      if (data.message === 'File uploaded successfully.') {
+        setFileStatus((prev) => ({ ...prev, [file.name]: 'Uploaded' }));
+        setUploadSuccess(true);
+      } else {
+        setFileStatus((prev) => ({
+          ...prev,
+          [file.name]: 'An error occurred while uploading the file???.',
+        }));
+      }
+    })
+    .catch((error) => {
+      setFileStatus((prev) => ({
+        ...prev,
+        [file.name]: 'An error occurred: ' + error.message,
+      }));
+    });
+};
 
     return (
         <div className="flex flex-col gap-4 w-full h-60 md:h-48">
