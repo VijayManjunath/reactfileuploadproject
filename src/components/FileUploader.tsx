@@ -72,7 +72,7 @@ export default function FileUploader(props: FileUploaderProps) {
         }
     };
 
-const fileUploadHandler = (file) => {
+const fileUploadHandler = (file: File) => {
   const formData = new FormData();
   formData.append('uploads', file);
 
